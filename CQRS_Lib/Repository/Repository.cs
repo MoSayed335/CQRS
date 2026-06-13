@@ -24,42 +24,42 @@ namespace CQRS_Lib.Repository
         {
             await _dbset.AddAsync(entity);
         }
-        public void UpdateAsync(T entity)
-        {
-            _dbset.Update(entity);
-        }
+        //public void UpdateAsync(T entity)
+        //{
+        //    _dbset.Update(entity);
+        //}
         public void Delete(T entity)
         {
             _dbset.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T,bool>> expression =null
-            , Expression<Func<T, bool>>[]? includes=null ,bool track = true)
-        {
-            var Categories = _dbset.AsQueryable();
-            if(expression is not null)
-            {
-                Categories = Categories.Where(expression);
-            }
-            if(!track)
-            {
-                Categories = Categories.AsNoTracking();
-            }
-            if(includes is not null)
-            {
-                foreach (var include in includes)
-                {
-                    Categories = Categories.Include(include);
-                }
-            }
-            return await Categories.ToListAsync();
-             //return await Categories.AsAsyncEnumerable();   
-        }
-        public async Task<T?> GetOneAsync(Expression<Func<T,bool>>? expression=null
-            , Expression<Func<T, bool>>[]? includes= null ,bool track = true)
-        {
-          return(await GetAllAsync(expression , includes , track)).FirstOrDefault();
-        }
+        //public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T,bool>> expression =null
+        //    , Expression<Func<T, bool>>[]? includes=null ,bool Tracke = true)
+        //{
+        //    var Categories = _dbset.AsQueryable();
+        //    if(expression is not null)
+        //    {
+        //        Categories = Categories.Where(expression);
+        //    }
+        //    if(!Tracke)
+        //    {
+        //        Categories = Categories.AsNoTracking();
+        //    }
+        //    if(includes is not null)
+        //    {
+        //        foreach (var include in includes)
+        //        {
+        //            Categories = Categories.Include(include);
+        //        }
+        //    }
+        //    return await Categories.ToListAsync();
+        //     //return await Categories.AsAsyncEnumerable();   
+        //}
+        //public async Task<T?> GetOneAsync(Expression<Func<T,bool>>? expression=null
+        //    , Expression<Func<T, bool>>[]? includes= null ,bool Tracke = true)
+        //{
+        //  return(await GetAllAsync(expression , includes , Tracke)).FirstOrDefault();
+        //}
 
         public async Task<int> SaveChanges()
         {
@@ -73,6 +73,39 @@ namespace CQRS_Lib.Repository
                 return 0;
             }
             
+        }
+
+        public void ubdate(T entity)
+        {
+           _dbset.Update(entity);
+        }
+
+        public async Task<IEnumerable<T>> GetAllasync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>[]? includes = null, bool Tracke = true)
+        {
+
+            var Categories = _dbset.AsQueryable();
+            if (expression is not null)
+            {
+                Categories = Categories.Where(expression);
+            }
+            if (!Tracke)
+            {
+                Categories = Categories.AsNoTracking();
+            }
+            if (includes is not null)
+            {
+                foreach (var include in includes)
+                {
+                    Categories = Categories.Include(include);
+                }
+            }
+            //return await Categories.ToListAsync();
+            return await Categories.ToListAsync();
+        }
+
+        public async Task<T?> GetoneAsync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>[]? includes = null, bool Tracke = true)
+        {
+            return (await GetAllasync(expression ,includes , Tracke)).FirstOrDefault();
         }
 
         //Task<IEnumerable<T>> IRepository<T>.GetOneAsync(Expression<Func<T, bool>> expression, Expression<Func<T, bool>>[]? includes, bool track)
