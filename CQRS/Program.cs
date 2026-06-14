@@ -1,6 +1,9 @@
 
 using CQRS_Lib.DataAccess;
+using CQRS_Lib.Models;
+using CQRS_Lib.Repository;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace CQRS
 {
@@ -15,6 +18,8 @@ namespace CQRS
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<IRepository<item>, Repository<item>>();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -24,6 +29,7 @@ namespace CQRS
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
