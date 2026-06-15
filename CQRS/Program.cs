@@ -1,7 +1,9 @@
 
+using CQRS_Lib;
 using CQRS_Lib.DataAccess;
 using CQRS_Lib.Models;
 using CQRS_Lib.Repository;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -20,6 +22,7 @@ namespace CQRS
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<IRepository<item>, Repository<item>>();
+            builder.Services.AddMediatR(typeof(Class1).Assembly);
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
